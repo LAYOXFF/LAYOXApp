@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEAM HEXAFIX</title>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family: 'Poppins',sans-serif;
+  background:#0a0a0a;
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+  position:fixed; width:100%; top:0; left:0;
+  padding:20px 50px;
+  display:flex; justify-content:space-between;
+  align-items:center;
+  backdrop-filter:blur(10px);
+  background:rgba(10,10,10,0.7);
+  transition:0.3s;
+  z-index:1000;
+}
+nav.scrolled{
+  background:rgba(10,10,10,0.9);
+}
+nav h2{
+  font-size:28px; color:#00e5ff; font-weight:700;
+}
+nav a{
+  color:white; margin-left:20px; font-weight:500;
+  text-decoration:none; transition:0.3s;
+}
+nav a:hover{ color:#00e5ff; }
+
+/* BACKGROUND */
+#particles-js{
+  position:fixed; width:100%; height:100%; top:0; left:0;
+  z-index:-1;
+}
+
+/* HERO */
+header{
+  margin-top:120px;
+  padding:80px 20px;
+}
+header h1{
+  font-size:72px;
+  background:linear-gradient(90deg,#00e5ff,#9d4edd);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  font-weight:700;
+}
+header p{
+  font-size:20px; max-width:700px;
+  margin:20px auto; color:#ccc;
+}
+
+/* TEAM */
+.team-container{
+  display:flex; justify-content:center;
+  gap:40px; flex-wrap:wrap;
+  margin:70px 10px;
+}
+.card{
+  width:280px;
+  padding:25px;
+  background:rgba(30,30,50,0.6);
+  border-radius:20px;
+  border:1px solid #00e5ff22;
+  box-shadow:0 0 15px #00e5ff22;
+  transition:0.3s; transform-style: preserve-3d;
+}
+.card img{
+  width:120px; height:120px;
+  border-radius:50%;
+  border:3px solid #00e5ff;
+  margin-bottom:15px;
+}
+.card h3{font-size:22px; margin-bottom:5px;}
+.card p{color:#aaa; font-size:16px;}
+.card:hover{
+  transform:scale(1.07);
+  box-shadow:0 0 30px #00e5ff,0 0 60px #8a2be2 inset;
+}
+
+/* JOIN FORM */
+.join{
+  margin:90px auto;
+  background:rgba(25,25,45,0.8);
+  padding:40px; width:450px;
+  border-radius:25px;
+  backdrop-filter:blur(10px);
+}
+.join h2{
+  font-size:28px; margin-bottom:25px;
+  color:#00e5ff;
+}
+input,textarea{
+  width:90%; padding:14px; margin:10px 0;
+  border:none; border-radius:12px;
+  background:#111; color:white;
+  font-size:16px;
+}
+button{
+  padding:14px 35px;
+  background:linear-gradient(45deg,#00e5ff,#9d4edd);
+  border:none; border-radius:18px;
+  font-weight:600; color:white;
+  cursor:pointer; margin-top:15px;
+  transition:0.3s;
+}
+button:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px #00e5ff;
+}
+
+/* FOOTER */
+footer{
+  margin-top:70px; padding:20px;
+  color:#777; font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <h2>HEXAFIX</h2>
+  <div>
+    <a href="#team">Team</a>
+    <a href="#join">Join</a>
+  </div>
+</nav>
+
+<div id="particles-js"></div>
+
+<header>
+  <h1>TEAM HEXAFIX</h1>
+  <p>We are a passionate team of developers & security experts — always pushing boundaries.</p>
+</header>
+
+<section id="team" class="team-container">
+  <div class="card">
+    <img src="https://files.catbox.moe/d9rlkm.jfif">
+    <h3>LAYOX HEXAFIX</h3>
+    <p>Lead Developer & CEO</p>
+  </div>
+  <div class="card">
+    <img src="https://files.catbox.moe/cl5dpc.png">
+    <h3>IVIL HEXAFIX</h3>
+    <p>Security Researcher</p>
+  </div>
+</section>
+
+<section id="join" class="join">
+  <h2>JOIN OUR ELITE</h2>
+  <input id="name" placeholder="Full Name">
+  <input id="spec" placeholder="Specialization">
+  <input id="discord" placeholder="Discord Username">
+  <textarea id="about" placeholder="Achievements"></textarea>
+  <button onclick="send()">Submit Application</button>
+</section>
+
+<footer>© 2026 HEXAFIX. All rights reserved.</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+particlesJS("particles-js",{
+  particles:{
+    number:{value:120},
+    color:{value:"#00e5ff"},
+    shape:{type:"circle"},
+    opacity:{value:0.5},
+    size:{value:3},
+    line_linked:{enable:true,distance:150,color:"#00e5ff"},
+    move:{enable:true,speed:2}
+  }
+});
+
+function send(){
+  const name = document.getElementById("name").value;
+  const spec = document.getElementById("spec").value;
+  const discord = document.getElementById("discord").value;
+  const about = document.getElementById("about").value;
+
+  fetch("https://discord.com/api/webhooks/1472456762983448760/2UCJC6XxaIxD--NbKd5mjmyabS2_YF-_GaSuxvwNP2Wgb1Sa9_y65QO9wu7DyllSKtSR",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({
+      content:`🚀 NEW HEXAFIX APPLICATION\n👤 ${name}\n⚡ ${spec}\n💬 ${discord}\n🏆 ${about}`
+    })
+  });
+  alert("Sent to Discord 📩");
+}
+
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY>50);
+});
+</script>
+
+</body>
+</html>
+
