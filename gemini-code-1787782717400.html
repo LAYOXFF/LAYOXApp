@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAFIAN HEXAFIT // ULTIMATE CORE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Changa', sans-serif; }
+        .tab-active { border-bottom: 2px solid #10b981; color: #10b981; }
+        .cyber-border { border: 1px solid rgba(16, 185, 129, 0.2); }
+        .cyber-border:hover { border-color: rgba(16, 185, 129, 0.6); }
+    </style>
+</head>
+<body class="bg-black text-gray-100 min-h-screen p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto space-y-6">
+        
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center bg-gray-950 p-5 rounded-2xl border border-gray-900 shadow-2xl gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-3 h-10 bg-green-500 rounded-full animate-pulse"></div>
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-extrabold tracking-wider text-white">SAFIAN <span class="text-green-500">HEXAFIT</span> // SYSTEM OS</h1>
+                    <p class="text-xs text-gray-400">لوحة المتابعة الشاملة - التغذية، الأوزان، ومحاكي الأداء</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <div class="bg-gray-900 border border-gray-800 p-2 rounded-xl text-center flex-1 md:w-48">
+                    <span class="text-[10px] text-gray-500 block uppercase">مؤقت الراحة</span>
+                    <span id="timer-display" class="text-xl font-extrabold text-green-400">00:00</span>
+                    <div class="flex justify-center gap-1 mt-1">
+                        <button onclick="startTimer(60)" class="bg-gray-800 text-[10px] px-2 py-0.5 rounded hover:bg-gray-700">60s</button>
+                        <button onclick="startTimer(90)" class="bg-gray-800 text-[10px] px-2 py-0.5 rounded hover:bg-gray-700">90s</button>
+                        <button onclick="resetTimer()" class="bg-red-900/40 text-[10px] px-2 py-0.5 rounded text-red-400">إلغاء</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex border-b border-gray-900 gap-6 text-sm font-bold text-gray-500 overflow-x-auto">
+            <button onclick="switchTab('nutrition')" id="tab-nutrition" class="pb-3 tab-active transition-all whitespace-nowrap">حاسبة التغذية</button>
+            <button onclick="switchTab('workout')" id="tab-workout" class="pb-3 transition-all whitespace-nowrap">سجل التمارين</button>
+            <button onclick="switchTab('tools')" id="tab-tools" class="pb-3 transition-all whitespace-nowrap">حاسبة 1RM والنسخ الاحتياطي</button>
+        </div>
+
+        <div id="section-nutrition" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <div class="bg-gray-950 cyber-border p-6 rounded-2xl space-y-4 lg:col-span-1 shadow-xl">
+                <div class="flex justify-between items-center border-b border-gray-900 pb-3">
+                    <h2 class="text-md font-bold text-green-400">إدخال الكميات</h2>
+                    <button onclick="clearNutritionInputs()" class="text-xs text-gray-500 hover:text-red-400">تفريغ الحقول</button>
+                </div>
+                
+                <div class="space-y-3 max-h-[480px] overflow-y-auto pr-1">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">صدور دجاج (g)</label>
+                        <input type="number" id="chicken" placeholder="0" oninput="calculateMacros()" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-green-500 text-sm">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">أرز مطبوخ (g)</label>
+                            <input type="number" id="rice-cooked" placeholder="0" oninput="calculateMacros()" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-green-500 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">أرز ني (g)</label>
+                            <input type="number" id="rice-raw" placeholder="0" oninput="calculateMacros()" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-green-500 text-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">مقرونة غير مطبوخة (g)</label>
+                        <input type="number" id="pasta-raw" placeholder="0" oninput="calculateMacros()" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-green-500 text-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">حليب بودرة "لحظة" (g)</label>
+                        <input type="number" id="milk-powder" placeholder="0" oninput="calculateMacros()" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-green-500 text-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">تونة صفية (g)</label>
+                        <input type="number" id="tuna" placeholder="0" oninput="calculateMacros()" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-green-500 text-sm">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">بيض كامل (عدد)</label>
+                            <input type="number" id="eggs" placeholder="0" oninput="calculateMacros()" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-green-500 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">Iso Whey (سكوب)</label>
+                            <input type="number" id="whey" placeholder="0" oninput="calculateMacros()" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-green-500 text-sm">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-950 cyber-border p-6 rounded-2xl lg:col-span-2 flex flex-col justify-between space-y-6 shadow-xl">
+                <div>
+                    <h2 class="text-md font-bold text-gray-200 border-b border-gray-900 pb-3">الإجمالي الحالي للوجبة</h2>
+                    
+                    <div class="grid grid-cols-3 gap-4 my-6">
+                        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 text-center">
+                            <span class="text-xs text-gray-400 block mb-1">السعرات الحرارية</span>
+                            <span id="total-calories" class="text-3xl font-extrabold text-yellow-500">0</span>
+                            <span class="text-[10px] text-gray-500 block mt-1">KCAL</span>
+                        </div>
+                        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 text-center">
+                            <span class="text-xs text-gray-400 block mb-1">البروتين</span>
+                            <span id="total-protein" class="text-3xl font-extrabold text-green-500">0</span>
+                            <span class="text-[10px] text-gray-500 block mt-1">GRAMS</span>
+                        </div>
+                        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 text-center">
+                            <span class="text-xs text-gray-400 block mb-1">الكاربوهيدرات</span>
+                            <span id="total-carbs" class="text-3xl font-extrabold text-blue-500">0</span>
+                            <span class="text-[10px] text-gray-500 block mt-1">GRAMS</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs text-gray-400">
+                            <span>توزيع الماكروز</span>
+                            <span id="macro-ratio">0% P / 0% C / 0% F</span>
+                        </div>
+                        <div class="w-full h-3 bg-gray-900 rounded-full overflow-hidden flex">
+                            <div id="bar-protein" class="h-full bg-green-500 transition-all duration-300" style="width: 0%"></div>
+                            <div id="bar-carbs" class="h-full bg-blue-500 transition-all duration-300" style="width: 0%"></div>
+                            <div id="bar-fats" class="h-full bg-yellow-500 transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-900/40 border border-gray-900 p-4 rounded-xl text-xs space-y-1 text-gray-400">
+                    <p class="font-bold text-gray-300 mb-1">ملاحظة التغذية:</p>
+                    <p>يتم حفظ بيانات الإدخال والتمارين تلقائياً في ذاكرة المتصفح المحلية.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="section-workout" class="hidden space-y-6">
+            <div class="bg-gray-950 cyber-border p-6 rounded-2xl shadow-xl space-y-4">
+                <div class="flex justify-between items-center border-b border-gray-900 pb-3">
+                    <h2 class="text-md font-bold text-green-400">جدول التمارين المستهدف</h2>
+                    <button onclick="addWorkoutRow()" class="bg-green-600 hover:bg-green-500 text-black font-bold text-xs px-3 py-1.5 rounded-lg transition-all">+ إضافة تمرين</button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right text-sm">
+                        <thead class="bg-gray-900 text-gray-400 text-xs uppercase border-b border-gray-800">
+                            <tr>
+                                <th class="p-3 rounded-r-lg">التمرين</th>
+                                <th class="p-3">المجموعات</th>
+                                <th class="p-3">التكرارات</th>
+                                <th class="p-3">الوزن (kg)</th>
+                                <th class="p-3 rounded-l-lg text-center">حذف</th>
+                            </tr>
+                        </thead>
+                        <tbody id="workout-list" class="divide-y divide-gray-900">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="section-tools" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-950 cyber-border p-6 rounded-2xl shadow-xl space-y-4">
+                <h2 class="text-md font-bold text-green-400 border-b border-gray-900 pb-3">حاسبة أقصى وزن لتكرار واحد (1RM)</h2>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">الوزن المرفوع (kg)</label>
+                        <input type="number" id="rm-weight" placeholder="100" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-green-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">عدد التكرارات</label>
+                        <input type="number" id="rm-reps" placeholder="5" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-green-500 text-sm">
+                    </div>
+                    <button onclick="calculate1RM()" class="w-full bg-green-600 hover:bg-green-500 text-black font-bold text-xs py-2 rounded-lg transition-all">احسب 1RM</button>
+                    
+                    <div class="bg-gray-900 p-4 rounded-xl text-center border border-gray-800 mt-4">
+                        <span class="text-xs text-gray-400 block">الحد الأقصى المتوقع (1RM)</span>
+                        <span id="rm-result" class="text-2xl font-extrabold text-green-400">0 kg</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-950 cyber-border p-6 rounded-2xl shadow-xl space-y-4 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-md font-bold text-green-400 border-b border-gray-900 pb-3">إدارة البيانات والنسخ الاحتياطي</h2>
+                    <p class="text-xs text-gray-400 my-4">يمكنك تصدير بياناتك الحالية إلى ملف JSON أو استيراد بيانات سابقة لضمان عدم ضياع التداريب والماكروز.</p>
+                </div>
+                
+                <div class="space-y-2">
+                    <button onclick="exportData()" class="w-full bg-gray-900 hover:bg-gray-800 border border-gray-800 text-green-400 font-bold text-xs py-2.5 rounded-lg transition-all">تصدير البيانات (Export JSON)</button>
+                    <button onclick="importData()" class="w-full bg-gray-900 hover:bg-gray-800 border border-gray-800 text-blue-400 font-bold text-xs py-2.5 rounded-lg transition-all">استيراد البيانات (Import JSON)</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            document.getElementById('section-nutrition').classList.add('hidden');
+            document.getElementById('section-workout').classList.add('hidden');
+            document.getElementById('section-tools').classList.add('hidden');
+            document.getElementById('tab-nutrition').classList.remove('tab-active');
+            document.getElementById('tab-workout').classList.remove('tab-active');
+            document.getElementById('tab-tools').classList.remove('tab-active');
+
+            if (tab === 'nutrition') {
+                document.getElementById('section-nutrition').classList.remove('hidden');
+                document.getElementById('tab-nutrition').classList.add('tab-active');
+            } else if (tab === 'workout') {
+                document.getElementById('section-workout').classList.remove('hidden');
+                document.getElementById('tab-workout').classList.add('tab-active');
+            } else {
+                document.getElementById('section-tools').classList.remove('hidden');
+                document.getElementById('tab-tools').classList.add('tab-active');
+            }
+        }
+
+        function calculateMacros() {
+            const inputs = {
+                chicken: parseFloat(document.getElementById('chicken').value) || 0,
+                riceCooked: parseFloat(document.getElementById('rice-cooked').value) || 0,
+                riceRaw: parseFloat(document.getElementById('rice-raw').value) || 0,
+                pastaRaw: parseFloat(document.getElementById('pasta-raw').value) || 0,
+                milkPowder: parseFloat(document.getElementById('milk-powder').value) || 0,
+                tuna: parseFloat(document.getElementById('tuna').value) || 0,
+                eggs: parseFloat(document.getElementById('eggs').value) || 0,
+                whey: parseFloat(document.getElementById('whey').value) || 0
+            };
+
+            const protein = (inputs.chicken * 0.31) + (inputs.riceCooked * 0.025) + (inputs.riceRaw * 0.07) + (inputs.pastaRaw * 0.13) + (inputs.milkPowder * 0.26) + (inputs.tuna * 0.26) + (inputs.eggs * 6) + (inputs.whey * 25);
+            const carbs = (inputs.riceCooked * 0.28) + (inputs.riceRaw * 0.78) + (inputs.pastaRaw * 0.75) + (inputs.milkPowder * 0.38) + (inputs.eggs * 0.6) + (inputs.whey * 2);
+            const fats = (inputs.chicken * 0.036) + (inputs.riceCooked * 0.003) + (inputs.riceRaw * 0.006) + (inputs.pastaRaw * 0.015) + (inputs.milkPowder * 0.27) + (inputs.tuna * 0.01) + (inputs.eggs * 5) + (inputs.whey * 1.5);
+            const calories = (protein * 4) + (carbs * 4) + (fats * 9);
+
+            document.getElementById('total-protein').innerText = Math.round(protein);
+            document.getElementById('total-carbs').innerText = Math.round(carbs);
+            document.getElementById('total-calories').innerText = Math.round(calories);
+
+            const totalGrams = protein + carbs + fats;
+            if (totalGrams > 0) {
+                const pPct = (protein / totalGrams) * 100;
+                const cPct = (carbs / totalGrams) * 100;
+                const fPct = (fats / totalGrams) * 100;
+
+                document.getElementById('bar-protein').style.width = pPct + '%';
+                document.getElementById('bar-carbs').style.width = cPct + '%';
+                document.getElementById('bar-fats').style.width = fPct + '%';
+                document.getElementById('macro-ratio').innerText = `${Math.round(pPct)}% P / ${Math.round(cPct)}% C / ${Math.round(fPct)}% F`;
+            } else {
+                document.getElementById('bar-protein').style.width = '0%';
+                document.getElementById('bar-carbs').style.width = '0%';
+                document.getElementById('bar-fats').style.width = '0%';
+                document.getElementById('macro-ratio').innerText = '0% P / 0% C / 0% F';
+            }
+
+            localStorage.setItem('safian_nutrition', JSON.stringify(inputs));
+        }
+
+        function clearNutritionInputs() {
+            const ids = ['chicken', 'rice-cooked', 'rice-raw', 'pasta-raw', 'milk-powder', 'tuna', 'eggs', 'whey'];
+            ids.forEach(id => document.getElementById(id).value = '');
+            calculateMacros();
+        }
+
+        let workouts = JSON.parse(localStorage.getItem('safian_workouts')) || [
+            { name: 'Bench Press', sets: 4, reps: '8-10', weight: 80 },
+            { name: 'Incline Dumbbell Press', sets: 4, reps: '10-12', weight: 32 }
+        ];
+
+        function renderWorkouts() {
+            const tbody = document.getElementById('workout-list');
+            tbody.innerHTML = '';
+            workouts.forEach((w, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="p-3 font-bold text-gray-200">${w.name}</td>
+                        <td class="p-3">${w.sets}</td>
+                        <td class="p-3 text-green-400">${w.reps}</td>
+                        <td class="p-3 text-gray-400">${w.weight} kg</td>
+                        <td class="p-3 text-center"><button onclick="deleteWorkout(${index})" class="text-red-500 text-xs hover:underline">حذف</button></td>
+                    </tr>
+                `;
+            });
+            localStorage.setItem('safian_workouts', JSON.stringify(workouts));
+        }
+
+        function addWorkoutRow() {
+            const name = prompt("اسم التمرين:");
+            const sets = prompt("عدد المجموعات:");
+            const reps = prompt("التكرارات:");
+            const weight = prompt("الوزن (kg):");
+
+            if (name && sets && reps) {
+                workouts.push({ name, sets, reps, weight: weight || 0 });
+                renderWorkouts();
+            }
+        }
+
+        function deleteWorkout(index) {
+            workouts.splice(index, 1);
+            renderWorkouts();
+        }
+
+        function calculate1RM() {
+            const w = parseFloat(document.getElementById('rm-weight').value) || 0;
+            const r = parseFloat(document.getElementById('rm-reps').value) || 0;
+            if (w > 0 && r > 0) {
+                const oneRM = w * (1 + r / 30);
+                document.getElementById('rm-result').innerText = `${Math.round(oneRM)} kg`;
+            }
+        }
+
+        let timerInterval;
+        function startTimer(seconds) {
+            clearInterval(timerInterval);
+            let time = seconds;
+            const display = document.getElementById('timer-display');
+            
+            timerInterval = setInterval(() => {
+                const mins = Math.floor(time / 60);
+                const secs = time % 60;
+                display.innerText = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                
+                if (--time < 0) {
+                    clearInterval(timerInterval);
+                    display.innerText = "انتهى الوقت!";
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            document.getElementById('timer-display').innerText = "00:00";
+        }
+
+        function exportData() {
+            const data = {
+                nutrition: JSON.parse(localStorage.getItem('safian_nutrition')),
+                workouts: JSON.parse(localStorage.getItem('safian_workouts'))
+            };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", "safian_hexafit_backup.json");
+            dlAnchor.click();
+        }
+
+        function importData() {
+            const jsonStr = prompt("أدخل نص JSON المنسوخ للنسخة الاحتياطية:");
+            if (jsonStr) {
+                try {
+                    const data = JSON.parse(jsonStr);
+                    if (data.nutrition) localStorage.setItem('safian_nutrition', JSON.stringify(data.nutrition));
+                    if (data.workouts) localStorage.setItem('safian_workouts', JSON.stringify(data.workouts));
+                    location.reload();
+                } catch (e) {
+                    alert("نص JSON غير صالحة!");
+                }
+            }
+        }
+
+        window.onload = function() {
+            const savedNutrition = JSON.parse(localStorage.getItem('safian_nutrition'));
+            if (savedNutrition) {
+                Object.keys(savedNutrition).forEach(key => {
+                    const elId = key === 'riceCooked' ? 'rice-cooked' : key === 'riceRaw' ? 'rice-raw' : key === 'pastaRaw' ? 'pasta-raw' : key === 'milkPowder' ? 'milk-powder' : key;
+                    if (document.getElementById(elId)) document.getElementById(elId).value = savedNutrition[key] || '';
+                });
+                calculateMacros();
+            }
+            renderWorkouts();
+        };
+    </script>
+</body>
+</html>
